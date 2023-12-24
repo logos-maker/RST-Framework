@@ -2,7 +2,7 @@
 Together it's a small/tiny Cross Platform Audio Framework for Making/Programming Audio Plugins in C Code with GCC.
 It can be used for making VST2 instruments/synthesizers and effects.
 
-The focus is on small amout of code and understand and take control of your codebase.
+The focus is on small amout of code, understand and take control of your codebase, and fast workflow.
 
 Can compile for 32bit and 64bit versions of Windows and Linux on Linux or Windows.
 And has been used to cross compile plugins for Windows on Linux.
