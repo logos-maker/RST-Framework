@@ -1,0 +1,5 @@
+.xcf files can be loaded with the graphics program gimp.
+label_vertical.xcf is an example template to make labels.
+Export from gimp to a bmp file in the A8 R8 G8 B8 format that is probably the default .bmp format.
+The vertical distance between elements in label_vertical.xcf is 14 pixels.
+Convert the .bmp picture with the convert program
