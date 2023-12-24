@@ -1,3 +1,4 @@
+![](./gfx/screen.png)
 # RST used with ikiGUI
 Together it's a small/tiny Cross Platform Audio Framework for Making/Programming Audio Plugins in C Code with GCC.
 It can be used for making VST2 instruments/synthesizers and effects.
