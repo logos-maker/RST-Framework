@@ -4,7 +4,6 @@
 #include <stdio.h>		// For text in window
 #include "libs/dsc.h"		// a lib for making oldschool wavetable synthesizers.
 #include "libs/ikigui.h"	// cross platform audio plugin GUI library for tiled graphics and animations.
-#include "libs/rst.h"		// definitions for making audio plugins compatible with the ABI.
 
 
 //*********************
