@@ -14,7 +14,10 @@ It will let you have code for several plugins in the same catalouge for convinie
 The examples uses ikiGUI for the graphical plugin editors.
 
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
-
+- Cross compiles 100% identical code to Linux and Window
+- Super small codebase in 100% C code
+- Uses 32bit bitmap graphics (24bit color with 8bit alpha channel)
+  
 ## Compilation on Windows
 MinGW-w64 can be used to compile the code on Windows. I would recommend downloading [TDM-GCC](https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release) and downloading the installer named tdm64-gcc-10.3.0-2.exe Then after that you should be able to compile from the CMD Command Prompt. You can compile to generate a plugin .dll with a command like...
 ```
