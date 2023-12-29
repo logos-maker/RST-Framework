@@ -4,11 +4,16 @@
 	typedef int32_t plugPtr;
 #endif
 
+enum { LEFT, RIGHT }; // 0 for left audio channel, 1 for right audio channel.
+#define UNKNOWN 0
+#define EFFECT_UNIT 1
+#define SYNTHESIZER 2 // 0 for unknown, 1 for effect unit, 2 for synthesizer.
+
 //typedef int64_t plugPtr;
 typedef struct plugHeader plugHeader;
 struct plugHeader{ // The ABI for audio effect plugins
 	int32_t magicNumber;
-	plugPtr (*plugInstuctionDecoderFunc)(plugHeader* effect, int32_t opcode, int32_t index, plugPtr value, void* ptr, float opt);
+	plugPtr (*plugInstructionDecoderFunc)(plugHeader* effect, int32_t opcode, int32_t index, plugPtr value, void* ptr, float opt);
 	void(*deprecatedProcess)(void); // not used, is deprecated
         void  (*plugSetParameterFunc)(plugHeader* effect, int32_t index, float parameter);
         float (*plugGetParameterFunc)(plugHeader* effect, int32_t index);
@@ -31,8 +36,7 @@ struct plugHeader{ // The ABI for audio effect plugins
 	char reserved3_for_future[56];// reserved
 };
 typedef plugPtr (*hostCallback) (plugHeader* effect, int32_t opcode, int32_t index, plugPtr value, void* ptr, float opt); 
-enum { LEFT, RIGHT }; // 0 for left audio channel, 1 for right audio channel.
-enum { UNKNOWN, EFFECT_UNIT, SYNTHESIZER}; // 0 for unknown, 1 for effect unit, 2 for synthesizer.
+
 enum plugPropertiesFlags{
         hasEditor	= 1,   	// Plug has an editor window
 	hasFloatAudio	= 16,  	// Plug has function for writing audio out over the audio in buffer in 32bit floating point (float).
