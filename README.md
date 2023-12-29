@@ -43,7 +43,7 @@ sudo apt-get install gcc-multilib
 ```
 gcc plug_template.c -o ./bin/plug_template.so -fPIC -shared -lm -m32
 ```
-### If you want to cross compile to Windows
+#### If you want to cross compile to Windows
 Install the needed compiler commands with...
 ```
 sudo apt -y install mingw-w64
