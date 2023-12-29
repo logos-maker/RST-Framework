@@ -1,22 +1,25 @@
 ![](./gfx/screen.png)
-# RST used with ikiGUI
-Together it's a small/tiny Cross Platform Audio Framework for Making/Programming Audio Plugins in C Code with GCC.
-It can be used for making VST2 instruments/synthesizers and effects.
+# Framework for making audio plugins in C code
+RST is small/tiny Cross Platform Audio Framework making audio Plugins with a graphical editor in C Code.
+It can be used for making VST2 instruments/synthesizers and effects and a graphical user interface.
 
-The focus is on small amout of code, understand and take control of your codebase, and fast workflow.
+The focus is on..
+- super small amout of code and codebase
+- 100% identical plugin code compiles for Linux and Window
+- understandabillity
+- control of your codebase
+- fast workflow
 
-It can compile 32bit and 64bit plugin versions of Windows and Linux.
-And it can even cross compile plugins for Windows on Linux.
-It uses it's own API that is compatible with the VST2.4 ABI so the plugs can be used in the most amount of music programs and even older ones.
-
-It will let you have code for several plugins in the same catalouge for convinience.
+What it does...
+- Compile 64bit and 32bit plugin versions of Windows and Linux.
+- Use 32bit bitmap graphics (24bit color with 8bit alpha channel).
+   
+It don't use the VST SDK created by Steinberg.
+Instead it uses it's own API that makes plugins compatible with the VST2.4 ABI, 
+so the plugs can be used in the most amount of music programs and even older ones.
 
 The examples uses ikiGUI for the graphical plugin editors.
-
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
-- Cross compiles 100% identical code to Linux and Window
-- Super small codebase in 100% C code
-- Uses 32bit bitmap graphics (24bit color with 8bit alpha channel)
   
 ## Compilation on Windows
 MinGW-w64 can be used to compile the code on Windows. I would recommend downloading [TDM-GCC](https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release) and downloading the installer named tdm64-gcc-10.3.0-2.exe Then after that you should be able to compile from the CMD Command Prompt. You can compile to generate a plugin .dll with a command like...
