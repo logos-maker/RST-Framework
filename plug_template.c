@@ -1,3 +1,4 @@
+#define GUI			// This define turns in GUI support in the frameworkm, removing it will to turn off support.
 
 #include <stdint.h>		// For variable declaration names.
 #include <stdlib.h>		// For malloc function.

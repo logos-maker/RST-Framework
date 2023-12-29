@@ -1,11 +1,11 @@
+#define GUI			// This define turns in GUI support in the frameworkm, removing it will to turn off support. 
 
 #include <stdint.h>		// For variable declaration names.
 #include <stdlib.h>		// For malloc function.
 #include <stdio.h>		// For text in window
-#include "libs/dsc.h"		// a lib for making oldschool wavetable synthesizers.
-#include "libs/ikigui.h"	// cross platform audio plugin GUI library for tiled graphics and animations.
 #include "libs/rst.h"		// definitions for making audio plugins compatible with the ABI.
-
+#include "libs/ikigui.h"	// cross platform audio plugin GUI library for tiled graphics and animations.
+#include <math.h>
 
 //*********************
 //   Plugin settings

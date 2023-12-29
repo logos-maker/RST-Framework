@@ -18,6 +18,7 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 		    if (0 == strcmp(((char*)ptr+10),"MidiEvent"))	return 1;  //
 		    if (0 == strcmp(((char*)ptr+10),"TimeInfo"))	return 0;  //change to 1 if you support it.
 		return -1; // Respond: -1 to everything not supported.
+#ifdef GUI
 		case plugEditRedraw: 
 			mouse_handling(plug); // update parameters with mouse.                  
 			draw_graphics(plug);  // Draw all graphics,
@@ -31,6 +32,7 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 		break;
 		case plugEditorClose:		destroy_graphics(plug,ptr);			return 1;	// Close plug edit window, not the plug instance.
 		case plugEditorSize: plug->myrect.bottom = PLUG_HEIGHT; plug->myrect.right = PLUG_WIDTH; *(struct ERect**)ptr = &plug->myrect ; return 1; // Host asks about the editor size.
+#endif
 		case plugGetPlugCategory:	return TYPE_OF_PLUG;						// Return 1 if the plug is an effect, or 2 if it's a synthesizer.
 		case plugGetProductString:      strcpy((char*)ptr, product_name);		return 1;	// The name of the plug
 		case plugGetVendorString:       strcpy((char*)ptr, brand_name);			return 1;	// request for the vendor string (usually used in the UI for plugin grouping)
@@ -59,21 +61,23 @@ float plugGetParameter(plugHeader *plugin, int32_t index){ plug_instance *plug =
 void* main(hostCallback HostCallback){ // New plug instances is created here. After plug load-in, it's the only known function for the host to run, that will give addresses for more functions for the host to run.
 	struct plugHeader myplugin = { // Declaration of the struct that a plugin must return to the host. And then some data to fill in important information.
 		.magicNumber =                                          1450406992, // Identifier that it's an audio plug
-		.plugInstuctionDecoderFunc =                            plugInstructionDecoder,  // A callback address for Host to send opcodes to plug
+		.plugInstructionDecoderFunc =                           plugInstructionDecoder,  // A callback address for Host to send opcodes to plug
 		.plugSetParameterFunc =                                 plugSetParameter, // Set new value of automatable parameter.
 		.plugGetParameterFunc =                                 plugGetParameter, // Returns current value of automatable parameter.
 		.number_of_programs =                                   NUMBER_OF_PRESETS, // presets
 		.number_of_params =                                     NUMBER_OF_PARAMETERS, // parameters
-		.number_of_inputs =                                     2, // audio inputs
 		.number_of_inputs =                                     0, // audio inputs
 		.number_of_outputs =                                    2, // audio outputs
-		.flags = hasFloatAudio | hasSaveState | hasEditor,      // Bitflags for things this plugin supports
+		.flags = hasFloatAudio | hasSaveState,      		// Bitflags for things this plugin supports
 		.version = VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG,        // plug-in version, not ABI version.
 		.plugProcessFloatFunc = audio_in_out_float,      	// Name of the function where the audio processing is done.
 		.plugProcessDoubleFunc = NULL,                          // No such function in this plug. Useed for double 64bit floating point audio handeling.
 	};
 	#if TYPE_OF_PLUG == EFFECT_UNIT
 		myplugin.number_of_inputs = 2; // audio inputs
+	#endif
+	#ifdef GUI
+		myplugin.number_of_inputs |= hasEditor;
 	#endif
 	plug_instance *plug =(plug_instance*)calloc(1,sizeof(plug_instance));	// Allocate memory to the plug instance. calloc sets all allocated memory to zero unlike malloc
 	memcpy(&(plug->plughead),&myplugin,sizeof(plugHeader));			// Copy/clone/'constructor for' the above header over to the memory reserved with calloc. Destination address is &(plug->plughead)
