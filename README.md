@@ -13,6 +13,7 @@ The focus is on..
 What it does...
 - Compile 64bit and 32bit plugin versions of Windows and Linux.
 - Use 32bit bitmap graphics (24bit color with 8bit alpha channel).
+- Give you a listing of events for debuging.
    
 It don't use the VST SDK created by Steinberg.
 Instead it uses it's own API that makes plugins compatible with the VST2.4 ABI, 
