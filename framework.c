@@ -77,7 +77,7 @@ void* main(hostCallback HostCallback){ // New plug instances is created here. Af
 		myplugin.number_of_inputs = 2; // audio inputs
 	#endif
 	#ifdef GUI
-		myplugin.number_of_inputs |= hasEditor;
+		myplugin.flags |= hasEditor;
 	#endif
 	plug_instance *plug =(plug_instance*)calloc(1,sizeof(plug_instance));	// Allocate memory to the plug instance. calloc sets all allocated memory to zero unlike malloc
 	memcpy(&(plug->plughead),&myplugin,sizeof(plugHeader));			// Copy/clone/'constructor for' the above header over to the memory reserved with calloc. Destination address is &(plug->plughead)
