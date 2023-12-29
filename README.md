@@ -17,6 +17,7 @@ What it does...
 It don't use the VST SDK created by Steinberg.
 Instead it uses it's own API that makes plugins compatible with the VST2.4 ABI, 
 so the plugs can be used in the most amount of music programs and even older ones.
+And don't need a licence for using the VST SDK for making ABI compatible plugins.
 
 The examples uses ikiGUI for the graphical plugin editors.
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
