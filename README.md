@@ -1,6 +1,6 @@
 ![](./gfx/screen.png)
 # Framework for making audio plugins in C code
-RST is small/tiny Cross Platform Audio Framework making audio Plugins in C Code.
+RST is small/tiny Cross Platform Audio Framework for developing audio Plugins in C Code.
 It can be used for making VST2 instruments/synthesizers and effects with graphical user interfaces.
 It's also possible to make plugin hosts with the The RST header file RST.h
 
