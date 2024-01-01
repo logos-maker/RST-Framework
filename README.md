@@ -3,7 +3,13 @@
 RST is small/tiny Cross Platform Audio Framework making audio Plugins in C Code.
 It can be used for making VST2 instruments/synthesizers and effects with graphical user interfaces.
 
-The focus is on..
+What you can do with it...
+- Plugins for DAW's compatible with the VST2 standard.
+- Develop Synthesizer plugins.
+- Develop Audio Effect Unit plugins.
+- Develop MIDI plugins
+
+The focus is on...
 - super small amout of code and codebase
 - 100% identical plugin code compiles for Linux and Window
 - understandabillity
