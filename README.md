@@ -10,11 +10,11 @@ What you can do with it...
 - Develop MIDI plugins
 
 The focus is on...
-- super small amout of code and codebase
+- Super small amout of code and codebase
 - 100% identical plugin code compiles for Linux and Window
-- understandabillity
-- control of your codebase
-- fast workflow
+- Understandabillity
+- Control of your codebase
+- Fast workflow
 
 What it does...
 - Compile 64bit and 32bit plugin versions of Windows and Linux.
