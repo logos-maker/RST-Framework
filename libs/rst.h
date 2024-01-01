@@ -1,3 +1,5 @@
+// The RST header file
+
 #ifdef __x86_64
 	typedef int64_t plugPtr;
 #else
