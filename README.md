@@ -5,6 +5,8 @@ You can use this to make plugins on Windows or Linux.
 It can be used for making VST2 instruments/synthesizers and effects with graphical user interfaces.
 It's also possible to make plugin hosts with the The RST header file RST.h
 
+All examples of plugs to compile are directly in the main catalouge.
+
 What you can do with it...
 - Plugins for DAW's compatible with the VST2 standard.
 - Develop Synthesizer plugins.
