@@ -62,10 +62,6 @@ struct preset presets[NUMBER_OF_PRESETS] = {	// the preset presets inside the pl
 void getParameterName(int32_t index,  char* ptr){
         switch(index){ // Copy the name of the the right paramter to be displayed in the host.
                 case  0: strcpy(ptr, "PAR 0"); break; // Name of the first  parameter is between ""
-                case  1: strcpy(ptr, "PAR 1"); break; // Name of the second parameter is between ""
-                case  2: strcpy(ptr, "PAR 2"); break; // ...and so on. 
-                case  3: strcpy(ptr, "PAR 3"); break; //
-
                 default: strcpy(ptr, "???");	 break; // A default name, reminding to add create any missing case for some parameter.
         }
 };
