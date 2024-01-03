@@ -42,9 +42,7 @@ ikigui_image bg;	// Global graphics for background art.
 struct data{  // Place your variables inside the struct that is needed for the state for your plug (State is things that should be remembered). 
   /* Place your variables for your plug state here */
 	ikigui_map font_map; // for textbased statusbar for debugging.
-	ikigui_map label_map;// A tilemap for the test labels.
 	ikigui_window mywin; // A plugin window declaration.
-	ikigui_map knob_map; // A tilemap declaration.
 	int set_off;
 } data;
 #include "libs/rst_framework_head.c"	// Has to be below 'struct data'.
