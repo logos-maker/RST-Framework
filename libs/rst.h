@@ -120,8 +120,43 @@ typedef struct plugMidiEvent{ // It's a special type of event
 	char not_used_1;		// Is set to zero.
 	char not_used_2;		// Is set to zero. 
 } plugMidiEvent;
-struct plugEvents{
+typedef struct plugEvents{
 	int32_t number_of_events;	// number of plugMidiEvent's in MidiEvent[2]
 	plugPtr reserved;		// Is set to zero.
 	plugMidiEvent* MIDIMessages[2];	// hold one or two events depending on number_of_events
+} plugEvents;
+typedef struct daw_transport{ // BPM is same as number of ppq per minute. PPQ is positions per quarter note. Values is relative to the start of the song.
+	double play_sample;		// The position in samples in the song last played.
+	double play_samplerate;		// The current sample rate.
+	double system_clock_ns;		// System clock in nano seconds.
+	double play_ppq;		// The position played/last played counted in quarter notes into the song.
+	double play_bpm;		// The current BPM (beats per minute, a beat is a quarter note in length).
+	double ppq_play_start;		// The start position (into the song) last played.
+	double ppq_loop_start;		// The left loop point.
+	double ppq_loop_end;		// The right loop point.
+	int32_t time_signature_upper_numeral; // Like 16 in 16 / 4 tempo.
+	int32_t time_signature_lower_numeral; // Like 4 in 16/4 tempo.
+	int32_t smpte_frame_offset;		// One frame to the next has a total value of 80. Thus the maximum value is 79 as 0 is exactly on frame uppdate.
+	int32_t smpte_framerate;	// the number of frames per second.
+	int32_t MIDI_clock_sample_offset; // The closest MIDI clock that will/has occured. Signed +/- value.
+	int32_t flags;			// On/off values, Use enum transport_flags to translate. eg. if(daw_transport->flags & DAW_PLAYING){ will tell you if the DAW is playing or not }.
+}daw_transport;
+enum transport_flags{
+	DAW_PLAYING   		= 1 << 1,	// 	Set if DAW is playing
+	DAW_LOOPING   		= 1 << 2,	// 	Set if DAW has loop activated
+	DAW_RECORDING 		= 1 << 3,	// 	Set if DAW is recording
+	DAW_CHANGED   		= 1,		//	If if transport has changed since last read
+	DAW_AUTOMATION_WRITE    = 1 << 6,	//	DAW is writing automation to plug
+	DAW_AUTOMATION_READ     = 1 << 7,	//	DAW is reading autiomation from plug
+
+	// play_sample value is always valid.
+	Valid_system_clock_ns   	= 1 << 8,	
+	valid_play_ppq          	= 1 << 9,	
+	valid_play_bpm          	= 1 << 10,	
+	vailid_ppq_play_start		= 1 << 11,	
+	vailid_ppq_loop			= 1 << 12,	
+	valid_time_signature    	= 1 << 13,	
+	valid_smpte			= 1 << 14,	
+	valid_MIDI_clock_sample_offset	= 1 << 15,
+	// The 16 top MSB (most significant bits is unused and set to zero).	
 };
