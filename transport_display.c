@@ -8,10 +8,11 @@
 //    Plugin settings - Info that is uniqe to your plug that the host want's to know
 char brand_name[]   = "DSC";    		// Place your brand name inside ""
 char product_name[] = "DSC-TRANSPORT";		// Place your plug name inside ""
-#define VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG 1  // Version number for this plug is set to 1. Increase number for your plug when you make new releases/improvements.
 #define TYPE_OF_PLUG SYNTHESIZER 		// Set this to EFFECT_UNIT or SYNTHESIZER
-#define NUMBER_OF_PARAMETERS 1			// How many parameters that the DAW can automate. That will be listed by the host.
+#define VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG 1  // Version number for this plug is set to 1. Increase number for your plug when you make new releases/improvements.
+#define NUMBER_OF_PARAMETERS 0			// How many parameters that the DAW can automate. That will be listed by the host.
 #define NUMBER_OF_PRESETS 1			// Number of presets inside the plug. Lowest amount is 1
+#define NO_MIDI
 
 //**************************************************************************************************************************************************
 //   Global variables/data for the plug -  You can only have things here that do not change and is the same for all instances/copies of your plug
@@ -24,9 +25,10 @@ char product_name[] = "DSC-TRANSPORT";		// Place your plug name inside ""
 
   /* Place your declations for your GUI here */
 
-// The size of the editor in pixels - Debugging makes the plug wider
-#define PLUG_WIDTH  8*32
-#define PLUG_HEIGHT 8*16
+#define ROWS 18		 // The number of rows of text
+#define PLUG_WIDTH  8*32 // The width of the editor in pixels
+#define PLUG_HEIGHT 8*18 // The hight of the editor in pixels
+
 
 // The graphic art (a normal BMP file converted to array declarations), is in the following files...
 #include "gfx/font.h"   // Embedded graphics for monospace font in 32bit AARRGGBB BMP format.
@@ -53,10 +55,11 @@ struct data{  // Place your variables inside the struct that is needed for the s
 
 //*********************
 //   Plugin presets
+/*
 struct preset presets[NUMBER_OF_PRESETS] = {	// the preset presets inside the plug. Change NUMBER_OF_PRESETS if changing the number of presets.
-	{"NOT USED",  0.5, },	// First preset
+	{"NOT USED" },	// First preset
 };
-
+*/
 //***********************************************
 //   Names of all user parameters in the plug
 void getParameterName(int32_t index,  char* ptr){
@@ -110,19 +113,22 @@ void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to
 	commandline += plug->dat.font_map.columns; // new line
 	sprintf(commandline,"SAMPLE RATE %12.4f",transport->play_samplerate);
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"SYSTEM TIME %16.0f",transport->system_clock_ns); // Time since the computer started
+	sprintf(commandline,"SYSTEM TIME%16.0f", transport->system_clock_ns); // Time since the computer started
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"PLAY PPQ    %12.4f",transport->play_ppq);
+	sprintf(commandline,"PLAY PPQ    %12.4f",transport->play_qp);
 	commandline += plug->dat.font_map.columns; // new line
 	sprintf(commandline,"PLAY BPM    %12.4f",transport->play_bpm);
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"PLAY START  %12.4f",transport->ppq_play_start);
+	sprintf(commandline,"PLAY START  %12.4f",transport->play_qp_start);
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"LOOP START  %12.4f",transport->ppq_loop_start);
+	sprintf(commandline,"LOOP START  %12.4f",transport->loop_qp_start);
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"LOOP END    %12.4f",transport->ppq_loop_end);
+	sprintf(commandline,"LOOP END    %12.4f",transport->loop_qp_end);
+
 	commandline += plug->dat.font_map.columns; // new line
-	sprintf(commandline,"LOOP END    %12.4f",transport->ppq_loop_end);
+	sprintf(commandline,"time_signature %d upper numeral",transport->time_signature_upper_numeral);
+	commandline += plug->dat.font_map.columns; // new line
+	sprintf(commandline,"time_signature %d lower numeral",transport->time_signature_lower_numeral);
 
 	commandline += plug->dat.font_map.columns;
 	if(transport->flags & DAW_PLAYING) sprintf(commandline,"DAW is Playing");
@@ -160,7 +166,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Character display
 	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,16); // 32 col, 8 rows, 8 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,18); // 32 col, 8 rows, 8 width, 8 height.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
