@@ -1,7 +1,8 @@
 // This is an example of an audio effect unit, using the version 2.4 plugin ABI (ABI Application Binary Interface).
 
+#if NUMBER_OF_PARAMETERS != 0
 void getProgramName(int32_t index,  char* ptr){	strcpy(ptr,presets[index].preset_name); }; // Copy the preset name and give to the host when asked for.
-
+#endif
 void setknob(plug_instance* plug,int knob,float value){
 	plug->pth.knob[knob] = value ;
 	plug->hostcall(&plug->plughead, 0, knob, 0, 0, plug->pth.knob[knob]); // op-code 0
@@ -12,6 +13,7 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 	plug_instance *plug = (plug_instance*)plugin->object;
 	switch(opCode){
 		case plugSupports:
+		    if (0 == strcmp(((char*)ptr),"RST-noteID"))		return 0;  //change to 1 if you support it. Future functionallity to support per not modulation.
 		    if (0 == strcmp(((char*)ptr),"bypass"))		return 0;  //change to 1 if you support it.	
 		    if (0 == strcmp(((char*)ptr),"MPE"))		return 0;  //change to 1 if you support it.
 #ifndef NO_MIDI
@@ -41,21 +43,26 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 		case plugEditorClose:		destroy_graphics(plug,ptr);			return 1;	// Close plug edit window, not the plug instance.
 		case plugEditorSize: plug->myrect.bottom = PLUG_HEIGHT; plug->myrect.right = PLUG_WIDTH; *(struct ERect**)ptr = &plug->myrect ; return 1; // Host asks about the editor size.
 #endif
-#if NUMBER_OF_PRESETS == 1
+#if NUMBER_OF_PARAMETERS != 0
 		case plugSetProgram:		if(plug->program_no == value){ return 1;} for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++){ plug->program_no = value; setknob(plug,i,presets[plug->program_no].param[i]); } break;
-		case plugGetProgram:		return plug->program_no;			// Return current preset program number 
+		case plugGetProgram:		return plug->program_no;			// Return current preset program number
+		case plugGetProgramNameIndexed:	getProgramName(index,(char*)ptr);		return 1;	// If the category value is -1 all presets are enumerated linearily. Categorys starts at index 0.
+		case plugGetProgramName:	getProgramName(plug->program_no,(char*)ptr);	return 1;	// Alternative to plugGetProgramNameIndexed as some hosts use this instead.	
+		case plugGetParamName:          getParameterName(index, (char*)ptr);            return 1;	// Host want the plug to transfer the indexed parameter's name. 
+		case plugGetParamText:          getParameterText(plug, index, (char*)ptr);	return 1;	// 
 #endif
 		case plugGetPlugCategory:	return TYPE_OF_PLUG;						// Return 1 if the plug is an effect, or 2 if it's a synthesizer.
 		case plugGetProductString:      strcpy((char*)ptr, product_name);		return 1;	// The name of the plug
 		case plugGetVendorString:       strcpy((char*)ptr, brand_name);			return 1;	// request for the vendor string (usually used in the UI for plugin grouping)
 		case plugSetSampleRate:         plug->samplerate = opt;	set_samplerate(plug); 	return 1;	// Host tells plug the samplerate
-		case plugGetProgramNameIndexed:	getProgramName(index,(char*)ptr);		return 1;	// If the category value is -1 all presets are enumerated linearily. Categorys starts at index 0.
-		case plugGetProgramName:	getProgramName(plug->program_no,(char*)ptr);	return 1;	// Alternative to plugGetProgramNameIndexed as some hosts use this instead.	
-		case plugGetParamName:          getParameterName(index, (char*)ptr);            return 1;	// Host want the plug to transfer the indexed parameter's name. 
-		case plugGetParamText:          getParameterText(plug, index, (char*)ptr);	return 1;	// 
+
 		case plugGetVersion:		return 2400;					// This plugin follows the 2.4 ABI.
 		case plugCanBeAutomated:        return 1;			// Return true/1 if if the parameter is automatable. Here is all parameters is automatable. The index variable holds the parameter that the hosts asks about. 
-		case plugOpen:	   		for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++){ setknob(plug,i,presets[plug->program_no].param[i]); } audioplugOpen(plugin); return 1; // Load preset 0. OP-Code is sent after the plug starts.
+		case plugOpen:	   		for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++){
+							#if NUMBER_OF_PARAMETERS != 0
+							setknob(plug,i,presets[plug->program_no].param[i]); 
+							#endif
+						} audioplugOpen(plugin); 					return 1; // Load preset 0. OP-Code is sent after the plug starts.
 		case plugClose:			audioplugClose(plugin); free(plug);				return 1;	 // This op-code is sent by host before the plug gets deallocated from the system. To free resources and so on.
 		case plugGetState:		{ *(void**)ptr = &plug->pth;  return sizeof(struct patch);	break; } 	// Host saves the plug state inside the host.
 		case plugSetState:		memcpy(&plug->pth, (unsigned char *)ptr, sizeof(struct patch)); return 1;	// Host loads an old saved state into plug.
