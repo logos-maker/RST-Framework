@@ -34,8 +34,8 @@ The examples uses ikiGUI for the graphical plugin editors.
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
 
 ## About the example programs
-- transport_display.c This demonstrates how you can read the transport information from the DAW.
 - sin_synth.c This is a bumb example that demonstrates some of the essentials of making a synth and a GUI.
+- transport_display.c This demonstrates how you can read the transport information from the DAW.
 - MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
 - MIDI_transpose_NO_GUI.c demonstrates how to make a simple MIDI effect and the NO_GUI keyword/define 
 - plug_template.c a template for making a simple synthesizer GUI to get you started and filling in with your code
