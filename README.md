@@ -34,13 +34,13 @@ The examples uses ikiGUI for the graphical plugin editors.
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
 
 ## About the example programs
-transport_display.c This demonstrates how you can read the transport information from the DAW.
-sin_synth.c This is a bumb example that demonstrates some of the essentials of making a synth and a GUI.
-MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
-MIDI_transpose_NO_GUI.c demonstrates how to make a simple MIDI effect and the NO_GUI keyword/define 
-plug_template.c a template for making a simple synthesizer GUI to get you started and filling in with your code
-plug_template_NO_GUI.c a template for a synthesizer to get started without thinking about a GUI for your plug.
-plug_template_NO_GUI_NO_MIDI.c a template for a audio effect unit without thinking about a GUI for your plug.
+- transport_display.c This demonstrates how you can read the transport information from the DAW.
+- sin_synth.c This is a bumb example that demonstrates some of the essentials of making a synth and a GUI.
+- MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
+- MIDI_transpose_NO_GUI.c demonstrates how to make a simple MIDI effect and the NO_GUI keyword/define 
+- plug_template.c a template for making a simple synthesizer GUI to get you started and filling in with your code
+- plug_template_NO_GUI.c a template for a synthesizer to get started without thinking about a GUI for your plug.
+- plug_template_NO_GUI_NO_MIDI.c a template for a audio effect unit without thinking about a GUI for your plug.
 
 ## Compilation on Windows
 MinGW-w64 can be used to compile the code on Windows. I would recommend downloading [TDM-GCC](https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release) and downloading the installer named tdm64-gcc-10.3.0-2.exe Then after that you should be able to compile from the CMD Command Prompt. You can compile to generate a plugin .dll with a command like...
