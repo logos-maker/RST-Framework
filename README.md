@@ -35,7 +35,7 @@ Information about ikiGUI can be found here ... https://github.com/logos-maker/ik
 
 ## About the example programs
 To learn about the RST framework and ikiGUI graphics, here is some different examples.
-Some of the simplest examples is has only 76 lines of code. And the more advances less than 200 lines of code.
+Some of the simplest examples is has only 76 lines of code. And the more advanced less than 200 lines of code.
 - sin_synth.c This is a bumb example that demonstrates some of the essentials of making a synth and a GUI.
 - transport_display.c This demonstrates how you can read the transport information from the DAW.
 - MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
