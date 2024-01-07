@@ -33,9 +33,10 @@ And don't need a licence for using the VST SDK for making ABI compatible plugins
 The examples uses ikiGUI for the graphical plugin editors.
 Information about ikiGUI can be found here ... https://github.com/logos-maker/ikiGUI
 
-## About the example programs
+## About the example programs and template programs
 To learn about the RST framework and ikiGUI graphics, here is some different examples.
 Some of the simplest examples is has only 76 lines of code. And the more advanced less than 200 lines of code.
+All compiles to a loadable plug to Windows or Linux without code changes.
 - sin_synth.c This example that demonstrates some of the essentials of making a synth and a GUI.
 - transport_display.c This demonstrates how you can read the transport information from the DAW.
 - MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
