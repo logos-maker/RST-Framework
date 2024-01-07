@@ -55,14 +55,14 @@ All compiles to a loadable plug to Windows or Linux without code changes.
 ## Compilation on Windows
 MinGW-w64 can be used to compile the code on Windows. I would recommend downloading [TDM-GCC](https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release) and downloading the installer named tdm64-gcc-10.3.0-2.exe Then after that you should be able to compile from the CMD Command Prompt. You can compile to generate a plugin .dll with a command like...
 ```
-gcc plug_template.c -o ./bin/plug_template.dll -fPIC -shared -lm -lGDI32
+gcc plug_template.c -o ../bin_win/plug_template.dll -fPIC -shared -lm -lGDI32
 ```
 If you don't want to use the CMD Command Prompt you can use a text editor that can run the single command needed for compilation is for example [Geany](https://www.geany.org/) or [Sublime Text](https://www.sublimetext.com/).
 
 ## Compilation on Linux
 It can easily be done with a command like...
 ```
-gcc plug_template.c -o ./bin/plug_template.so -fPIC -shared -lm
+gcc plug_template.c -o ../bin_lin/plug_template.so -fPIC -shared -lm
 ```
 If you want to compile 32bit linux plugins on a 64bit machine install...
 ```
@@ -70,7 +70,7 @@ sudo apt-get install gcc-multilib
 ```
 ...and use the -m32 flag for GCC with a command like...
 ```
-gcc plug_template.c -o ./bin/plug_template.so -fPIC -shared -lm -m32
+gcc plug_template.c -o ../bin_lin/plug_template.so -fPIC -shared -lm -m32
 ```
 #### If you want to cross compile to Windows
 Install the needed compiler commands with...
@@ -79,9 +79,9 @@ sudo apt -y install mingw-w64
 ```
 If you want a 64-bit Windows plugin compile with a command like...
 ```
-x86_64-w64-mingw32-gcc generic_fx_code.c -o ./bin/plugin.dll -fPIC -shared -lgdi32 -lm
+x86_64-w64-mingw32-gcc generic_fx_code.c -o ../bin_win/plugin.dll -fPIC -shared -lgdi32 -lm
 ```
 And if you want to make 32bit Windows plugs use a command like...
 ```
-i686-w64-mingw32-gcc generic_fx_code.c -o ./bin/plugin.dll -fPIC -shared -lgdi32 -lm
+i686-w64-mingw32-gcc generic_fx_code.c -o ../bin_win/plugin.dll -fPIC -shared -lgdi32 -lm
 ```
