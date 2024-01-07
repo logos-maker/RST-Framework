@@ -49,6 +49,7 @@ Some of the simplest examples is has only 76 lines of code. And the more advance
 - For making it simpler to get started.
 - For developing fast and performant plugs in C code and make GUI's in C code.
 - For not needing to learn C++ the worlds most complex language, that would take several decades to master.
+- To avoid complex build systems. And make it easier to get started and understand.
 
 ## Compilation on Windows
 MinGW-w64 can be used to compile the code on Windows. I would recommend downloading [TDM-GCC](https://jmeubank.github.io/tdm-gcc/articles/2021-05/10.3.0-release) and downloading the installer named tdm64-gcc-10.3.0-2.exe Then after that you should be able to compile from the CMD Command Prompt. You can compile to generate a plugin .dll with a command like...
