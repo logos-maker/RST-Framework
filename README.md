@@ -36,13 +36,13 @@ Information about ikiGUI can be found here ... https://github.com/logos-maker/ik
 ## About the example programs
 To learn about the RST framework and ikiGUI graphics, here is some different examples.
 Some of the simplest examples is has only 76 lines of code. And the more advanced less than 200 lines of code.
-- sin_synth.c This is a bumb example that demonstrates some of the essentials of making a synth and a GUI.
+- sin_synth.c This example that demonstrates some of the essentials of making a synth and a GUI.
 - transport_display.c This demonstrates how you can read the transport information from the DAW.
 - MIDI_Monitor.c This demonstrates how you can read incomming MIDI to your plug.
-- MIDI_transpose_NO_GUI.c demonstrates how to make a simple MIDI effect and the NO_GUI keyword/define 
-- plug_template.c a template for making a simple synthesizer GUI to get you started and filling in with your code
-- plug_template_NO_GUI.c a template for a synthesizer to get started without thinking about a GUI for your plug.
-- plug_template_NO_GUI_NO_MIDI.c a template for a audio effect unit and the NO_MIDI keyword/define, has no GUI. 
+- MIDI_transpose_NO_GUI.c demonstrates how to make a simple MIDI effect. 
+- plug_template.c a template for making a simple synthesizer with GUI.
+- plug_template_NO_GUI.c a template for a synthesizer without GUI.
+- plug_template_NO_GUI_NO_MIDI.c a template for a audio effect, without GUI and MIDI. 
 
 ## Why RST ans ikiGUI was made
 - For simple and low amout of code.
