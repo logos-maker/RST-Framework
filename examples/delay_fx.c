@@ -1,3 +1,4 @@
+// More examples with the RST framework can be found at https://github.com/logos-maker/RST and the plugin graphic system ikiGUI can be found at https://github.com/logos-maker/ikiGUI
 #include <stdint.h>		// For variable declaration names.
 #include <stdlib.h>		// For malloc function.
 #include <stdio.h>		// For text in window
@@ -12,6 +13,7 @@ char product_name[] = "DSC-THELAY";		// Place your plug name inside ""
 #define VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG 1  // Version number for this plug is set to 1. Increase number for your plug when you make improvements.
 #define TYPE_OF_PLUG EFFECT_UNIT 		// Set this to EFFECT_UNIT or SYNTHESIZER
 #define NUMBER_OF_PRESETS 3			// Number of presets inside the plug.
+#define NO_MIDI					// If NO_MIDI is defined, the MIDI handling is turned of, and this only makes sense for a EFFECT_UNIT  <----- Turns of MIDI system function:  MIDI_in()
 
 //**************************************************************************************************************************************************
 //   Global variables/data for the plug -  You can only have things here that do not change and is the same for all instances/copies of your plug
@@ -34,9 +36,7 @@ char product_name[] = "DSC-THELAY";		// Place your plug name inside ""
 
 // The graphic art (a normal BMP file converted to array declarations), is in the following files...
 #include "../gfx/knob.h"	// Embedded graphics for knobs in 32bit AARRGGBB BMP format.
-#include "../gfx/font.h"	// Embedded graphics for monospace labels in 332bit AARRGGBB BMP format.
 #include "../gfx/bg.h"	// Embedded graphics for a background picture in 332bit AARRGGBB BMP format.
-ikigui_image font;	// Global graphics for monospace text characters.
 ikigui_image knob_anim;	// Global graphics for knobs.
 ikigui_image bg;	// Global graphics for background art.
 
@@ -51,7 +51,6 @@ struct data{     // Things that uniqe for each plug instance that is needed for 
 	float filt_buff[2][16];	  // stereo buffer for filter
 	int delaytap;		  // the dalay tap for the delay
 	// For graphics
-	ikigui_map font_map; // for textbased statusbar for debugging.
 	ikigui_window mywin; // A plugin window declaration.
 	ikigui_map knob_map; // A tilemap declaration.
 } data;
@@ -62,12 +61,7 @@ struct data{     // Things that uniqe for each plug instance that is needed for 
 //   User defined functions  
 //*****************************
   /* Place your functions here */
-char* terminal(plug_instance* plug){
-	for(int i = 0 ; i < (plug->dat.font_map.columns*(plug->dat.font_map.rows-1)) ; i++) plug->dat.font_map.map[i] = plug->dat.font_map.map[i+plug->dat.font_map.columns] ; // Linefeed (scroll text up one line).
-	char* commandline = &plug->dat.font_map.map[plug->dat.font_map.columns*(plug->dat.font_map.rows-1)]; // Address to the last line of text, where the new message is going to be written. // Line for debugg only
-	for(int i = 0 ; i < plug->dat.font_map.columns ; i++) commandline[i]=0; // Clear out old text
-	return commandline ; // Address to the last line of text, where the new message is going to be written.
-}
+
 
 //*****************************************************
 //   Patch information - Parameters, Names & Values
@@ -130,9 +124,6 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
         for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++ ){ // Update the tile map, with all knob values.
                 plug->dat.knob_map.map[i] = (char)(plug->pth.knob[i] * plug->dat.knob_map.max_index ); // Select animation frame for knob value.
         }
-	if(m->left_click){
-		sprintf(terminal(plug),"%08d %08d",plug->dat.mywin.mouse.x,plug->dat.mywin.mouse.y); // Print message on click
-	}
 }
 void draw_graphics(plug_instance *plug){			// The DAW calls this when it wants to redraw the editor...
 	ikigui_image_draw(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
@@ -148,10 +139,6 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 	// For the knob animation
 	ikigui_bmp_include(&knob_anim,knob_array); // Load knob graphics.						
 	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
-
-	// For debugging text
-	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,1); // 32 col, 8 rows, 8 width, 8 height.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
@@ -176,28 +163,6 @@ void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to
 //***********************************************
 //   Audio & MIDI port communciation functions  
 //***********************************************
-
-//*************************************************************************************************************
-//    Plugin MIDI - MIDI_in() The DAW calls this function when it want to send a MIDI message to the plugin.
-int32_t MIDI_in(plug_instance* plug,struct plugEvents* ev){ // Take care of incomming MIDI events/messages
-	for (int32_t i = 0; i < ev->number_of_events; i++) { 	  // Parse/loop through all incomming events.
-		if ( (ev->MIDIMessages[i])->eventType != 1 ) continue; 	  // Accept only MIDI messages an no sysex.
-		char* midiData = ev->MIDIMessages[i]->MIDIByte;
-
-		switch (midiData[0] & 0xf0) { // Recive on all channels
-			case 0x90:  // Note on	
-				sprintf(terminal(plug),"NOTE ON  %2d, OFFSET %5d ", midiData[1] & 0x7F, ev->MIDIMessages[i]->sample_offset); // Print message on bottom row // See DEBUG
-			break;      
-			case 0x80:  // Note off						
-				sprintf(terminal(plug),"NOTE OFF %2d, OFFSET %5d ", midiData[1] & 0x7F, ev->MIDIMessages[i]->sample_offset); // Print message on bottom row // See DEBUG
-			break;
-			default:    // Other MIDI message
-				sprintf(terminal(plug),"UNKNOWN,  OFFSET %5d ", ev->MIDIMessages[i]->sample_offset); // Print message on bottom row // See DEBUG
-			break;
-		}
-	}
-	return 1;
-}
 
 //***********************************************************************************************************************************************************************************
 //   Plugin algorithm - audio_in_out_float() The DAW calls this function to make the plugin process audio in buffer and fill with audio out data. Audio levels is between -1 to +1

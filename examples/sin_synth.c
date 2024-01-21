@@ -119,6 +119,11 @@ void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
 	
 	for(int i=0;i<127;i++)	midi[i]=440.0f*pow(2, ((float)i-69.0f)/12.0f);// Generate MIDI -> Frequency table
 	for(int i=0;i<256;i++)	SineTable[i]= sin(TwoPI*((float)i/256.0f));// Generate sine wave table
+
+	// For debugging text - Needs to be here so changing the map without started window don't crach plug, so memory for the map is allocated
+	ikigui_bmp_include(&font,font_array);
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,(PLUG_HEIGHT-(64*PARAMETER_ROW))>>3); // 32 col, 8 rows, 8 width, 8 height.
+
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
 	plug_instance *plug = (plug_instance*)plugin->object;
@@ -157,7 +162,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
                 plug->dat.knob_map.map[i] = (char)(plug->pth.knob[i] * plug->dat.knob_map.max_index ); // Select animation frame for knob value.
         }
 	if(m->left_click){
-		sprintf(terminal(plug),"%3d %3d",plug->dat.mywin.mouse.x,plug->dat.mywin.mouse.y); // Debug demo: Print message on click
+		sprintf(terminal(plug),"coordinate x: %3d  y: %3d",plug->dat.mywin.mouse.x,plug->dat.mywin.mouse.y); // Debug demo: Print message on click
 	}
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
@@ -169,7 +174,13 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_empty(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_draw_gradient(&bg,0x00eeeedd, 0x00999999);
+	ikigui_draw_gradient(&bg,0x00444444, 0x00222222);
+	ikigui_rect gradient_frame = {.w = bg.w - 10, .h  = 10, .x = 5, .y = 54 };
+	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
+	gradient_frame.y = 118 ;
+	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
+	ikigui_rect gradient_terminal = {.w = bg.w, .h  = 8*8, .x = 0, .y = PLUG_HEIGHT- 8*8 };
+	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_terminal);
 	ikigui_bmp_include(&labels,labels_array); // Load label graphics.
 	ikigui_map_init(&plug->dat.label_map, &bg,&labels,0,H_DISTANCE,V_DISTANCE,64,14,PARAMETER_COL,PARAMETER_ROW);
 	for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++) plug->dat.label_map.map[i] = i; // automap the labels
@@ -179,9 +190,6 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 	ikigui_bmp_include(&knob_anim,knob_array); // Load knob graphics.						
 	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 
-	// For debugging text
-	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,(PLUG_HEIGHT-(64*PARAMETER_ROW))>>3); // 32 col, 8 rows, 8 width, 8 height.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
