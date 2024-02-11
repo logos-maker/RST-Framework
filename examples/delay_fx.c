@@ -131,8 +131,8 @@ void draw_graphics(plug_instance *plug){			// The DAW calls this when it wants t
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 	// Image composite of a background image for the plug
-	ikigui_image_empty(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_draw_gradient(&bg,0x00eeeedd, 0x00999999);
+	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
+	ikigui_image_gradient(&bg,0x00eeeedd, 0x00999999);
 	ikigui_bmp_include(&bg,bg_array); 
 
 	// For the knob animation

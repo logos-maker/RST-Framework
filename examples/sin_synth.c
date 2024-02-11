@@ -173,14 +173,14 @@ void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
 	// Create a background image for the plug - using alpha compositing
-	ikigui_image_empty(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_draw_gradient(&bg,0x00444444, 0x00222222);
+	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
+	ikigui_image_gradient(&bg,0x00444444, 0x00222222);
 	ikigui_rect gradient_frame = {.w = bg.w - 10, .h  = 10, .x = 5, .y = 54 };
-	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
+	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
 	gradient_frame.y = 118 ;
-	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
+	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
 	ikigui_rect gradient_terminal = {.w = bg.w, .h  = 8*8, .x = 0, .y = PLUG_HEIGHT- 8*8 };
-	ikigui_blit_gradient(&bg,0x00555555, 0x00666666,&gradient_terminal);
+	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_terminal);
 	ikigui_bmp_include(&labels,labels_array); // Load label graphics.
 	ikigui_map_init(&plug->dat.label_map, &bg,&labels,0,H_DISTANCE,V_DISTANCE,64,14,PARAMETER_COL,PARAMETER_ROW);
 	for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++) plug->dat.label_map.map[i] = i; // automap the labels
