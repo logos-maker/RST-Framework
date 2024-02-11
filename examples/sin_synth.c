@@ -168,7 +168,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
 	ikigui_image_draw(&plug->dat.mywin.frame,&bg, 0, 0);			// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,0,0);				// Draw knobs.
-	ikigui_map_draw(&plug->dat.font_map,0,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
+	ikigui_map_draw(&plug->dat.font_map,HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
@@ -180,7 +180,8 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 	gradient_frame.y = 118 ;
 	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
 	ikigui_rect gradient_terminal = {.w = bg.w, .h  = 8*8, .x = 0, .y = PLUG_HEIGHT- 8*8 };
-	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_terminal);
+	ikigui_draw_gradient(&bg,0x00788260, 0x007F8967,&gradient_terminal); // background for the fake LCD 
+	font.bg_color = 0x003c3e3b; // set font color
 	ikigui_bmp_include(&labels,labels_array); // Load label graphics.
 	ikigui_map_init(&plug->dat.label_map, &bg,&labels,0,H_DISTANCE,V_DISTANCE,64,14,PARAMETER_COL,PARAMETER_ROW);
 	for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++) plug->dat.label_map.map[i] = i; // automap the labels
