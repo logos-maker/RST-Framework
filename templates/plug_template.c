@@ -110,7 +110,7 @@ void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
 
 	// For debugging text - Needs to be here as we need to allocate memory for writing text.
 	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,8); // 32 col, 8 rows, 32 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,8); // 32 col, 8 rows, 32 width, 8 height.
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
 	plug_instance *plug = (plug_instance*)plugin->object;
