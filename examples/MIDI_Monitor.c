@@ -131,7 +131,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// For monospace text
 	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,COLUMNS,ROWS); 
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,COLUMNS,ROWS); 
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 

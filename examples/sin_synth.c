@@ -122,7 +122,7 @@ void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
 
 	// For debugging text - Needs to be here so changing the map without started window don't crach plug, so memory for the map is allocated
 	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,(PLUG_HEIGHT-(64*PARAMETER_ROW))>>3); // 32 col, 8 rows, 8 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,(PLUG_HEIGHT-(64*PARAMETER_ROW))>>3); // 32 col, 8 rows, 8 width, 8 height.
 
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
@@ -168,7 +168,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
 	ikigui_image_draw(&plug->dat.mywin.frame,&bg, 0, 0);			// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,0,0);				// Draw knobs.
-	ikigui_map_draw(&plug->dat.font_map,HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
+	ikigui_map_draw(&plug->dat.font_map,BLIT_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 

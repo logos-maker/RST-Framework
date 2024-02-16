@@ -158,7 +158,7 @@ void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to
 	if(transport->flags & DAW_AUTOMATION_READ) sprintf(commandline,"DAW AUTO WRITE      ");
 	else sprintf(commandline,"DAW AUTO NOT WRITING");
 
-	ikigui_map_draw(&plug->dat.font_map,HOLLOW,0,0);// Draw text debugging text.
+	ikigui_map_draw(&plug->dat.font_map,BLIT_HOLLOW,0,0);// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
@@ -168,7 +168,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Character display
 	ikigui_bmp_include(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,ASCII,0,0,8,8,32,18); // 32 col, 8 rows, 8 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,18); // 32 col, 8 rows, 8 width, 8 height.
 	font.bg_color = 0x114433 ;
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
