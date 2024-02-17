@@ -32,11 +32,11 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 		case plugEditRedraw: 
 			mouse_handling(plug); // update parameters with mouse.                  
 			draw_graphics(plug);  // Draw all graphics,
-			ikigui_update_window(&plug->dat.mywin); // Update all graphics in the plugin editor
+			ikigui_window_update(&plug->dat.mywin); // Update all graphics in the plugin editor
 		break;
 		case plugEditorOpen:{
 			prepare_graphics(plug,ptr); // Allocate everything needed for the new editor window.
-			ikigui_open_plugin_window(&plug->dat.mywin,ptr,PLUG_WIDTH,PLUG_HEIGHT);	// Open the editor window in host.
+			ikigui_window_open_editor(&plug->dat.mywin,ptr,PLUG_WIDTH,PLUG_HEIGHT);	// Open the editor window in host.
 			return  1;//true;
 		}
 		break;
