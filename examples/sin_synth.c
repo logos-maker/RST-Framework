@@ -121,7 +121,7 @@ void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
 	for(int i=0;i<256;i++)	SineTable[i]= sin(TwoPI*((float)i/256.0f));// Generate sine wave table
 
 	// For debugging text - Needs to be here so changing the map without started window don't crach plug, so memory for the map is allocated
-	ikigui_bmp_include(&font,font_array);
+	ikigui_include_bmp(&font,font_array);
 	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,(PLUG_HEIGHT-(64*PARAMETER_ROW))>>3); // 32 col, 8 rows, 8 width, 8 height.
 
 }
@@ -136,11 +136,11 @@ void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to
 //**************************
 
 void mouse_handling(plug_instance *plug){		// Mouse handling
-        ikigui_get_events(&plug->dat.mywin);		// update window events
+        ikigui_window_get_events(&plug->dat.mywin);		// update window events
 	struct mouse* m = &plug->dat.mywin.mouse ;	// Make a short hand name, for the code below
 
 	if(m->left_click){ // Mouse down event
-                plug->knob_selected = ikigui_mouse_pos(&plug->dat.knob_map, m->x , m->y);
+                plug->knob_selected = ikigui_mouse_pos_map(&plug->dat.knob_map, m->x , m->y);
                 if(-1 != plug->knob_selected){ // if mouse pointer was over a tile
                         m->pressed = 1; // That we has sent to the host that we have grabbed something
                         plug->hostcall(&plug->plughead, dawAutomateStart, plug->knob_selected, 0, 0, 0); // Tell host we grabed the knob 
@@ -166,7 +166,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 	}
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
-	ikigui_image_draw(&plug->dat.mywin.frame,&bg, 0, 0);			// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);			// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,0,0);				// Draw knobs.
 	ikigui_map_draw(&plug->dat.font_map,BLIT_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
 }
@@ -181,14 +181,14 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
 	ikigui_rect gradient_terminal = {.w = bg.w, .h  = 8*8, .x = 0, .y = PLUG_HEIGHT- 8*8 };
 	ikigui_draw_gradient(&bg,0x00788260, 0x007F8967,&gradient_terminal); // background for the fake LCD 
-	font.bg_color = 0x003c3e3b; // set font color
-	ikigui_bmp_include(&labels,labels_array); // Load label graphics.
+	font.color = 0x003c3e3b; // set font color
+	ikigui_include_bmp(&labels,labels_array); // Load label graphics.
 	ikigui_map_init(&plug->dat.label_map, &bg,&labels,0,H_DISTANCE,V_DISTANCE,64,14,PARAMETER_COL,PARAMETER_ROW);
 	for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++) plug->dat.label_map.map[i] = i; // automap the labels
 	ikigui_map_draw(&plug->dat.label_map,0,0,52);	// Draw text labels.
 
 	// For the knob animation
-	ikigui_bmp_include(&knob_anim,knob_array); // Load knob graphics.						
+	ikigui_include_bmp(&knob_anim,knob_array); // Load knob graphics.						
 	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 
 }

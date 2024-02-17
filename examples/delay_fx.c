@@ -99,11 +99,11 @@ void getParameterText(plug_instance *plug,int32_t index,char* ptr){ if(NULL!=gcv
 //**************************
 
 void mouse_handling(plug_instance *plug){		// Mouse handling
-        ikigui_get_events(&plug->dat.mywin);		// update window events
+        ikigui_window_get_events(&plug->dat.mywin);		// update window events
 	struct mouse* m = &plug->dat.mywin.mouse ;	// Make a short hand name, for the code below
 
 	if(m->left_click){ // Mouse down event
-                plug->knob_selected = ikigui_mouse_pos(&plug->dat.knob_map, m->x -10, m->y -10);
+                plug->knob_selected = ikigui_mouse_pos_map(&plug->dat.knob_map, m->x -10, m->y -10);
                 if(-1 != plug->knob_selected){ // if mouse pointer was over a tile
                         m->pressed = 1; // That we has sent to the host that we have grabbed something
                         plug->hostcall(&plug->plughead, dawAutomateStart, plug->knob_selected, 0, 0, 0); // Tell host we grabed the knob 
@@ -126,17 +126,17 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
         }
 }
 void draw_graphics(plug_instance *plug){			// The DAW calls this when it wants to redraw the editor...
-	ikigui_image_draw(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,10,10);		// Draw knobs.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 	// Image composite of a background image for the plug
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
 	ikigui_image_gradient(&bg,0x00eeeedd, 0x00999999);
-	ikigui_bmp_include(&bg,bg_array); 
+	ikigui_include_bmp(&bg,bg_array); 
 
 	// For the knob animation
-	ikigui_bmp_include(&knob_anim,knob_array); // Load knob graphics.						
+	ikigui_include_bmp(&knob_anim,knob_array); // Load knob graphics.						
 	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
