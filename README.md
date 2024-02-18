@@ -45,7 +45,7 @@ All compiles to a loadable plug to Windows or Linux without code changes.
 - plug_template_NO_GUI.c a template for a synthesizer without GUI.
 - plug_template_NO_GUI_NO_MIDI.c a template for a audio effect, without GUI and MIDI. 
 
-## Why RST ans ikiGUI was made
+## Why RST and ikiGUI was made
 - For simple and low amout of code.
 - For making it simpler to get started.
 - For developing fast and performant plugs in C code and make GUI's in C code.
