@@ -12,7 +12,7 @@ char brand_name[]   = "DSC";    		// Place your brand name inside ""
 char product_name[] = "DSC-MIDI MONITOR";	// Place your plug name inside ""
 #define VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG 1  // Version number for this plug is set to 1. Increase number for your plug when you make new releases/improvements.
 #define TYPE_OF_PLUG SYNTHESIZER 		// Set this to EFFECT_UNIT or SYNTHESIZER
-#define NUMBER_OF_PARAMETERS 0			// How many parameters that the DAW can automate. That will be listed by the host.
+#define NUMBER_OF_PARAMETERS 1			// How many parameters that the DAW can automate. That will be listed by the host.
 #define NUMBER_OF_PRESETS 1			// Number of presets inside the plug. Lowest amount is 1
 
 
@@ -39,7 +39,6 @@ char product_name[] = "DSC-MIDI MONITOR";	// Place your plug name inside ""
 #include "../gfx/font.h"// The graphic art (a normal BMP file converted to array declarations)
 ikigui_image font;	// Global graphics for monospace text characters.
 ikigui_image bg;	// Global graphics for background art.
-
 
 
 //***************************************************************************************************
@@ -118,20 +117,15 @@ void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to
 void mouse_handling(plug_instance *plug){		// Mouse handling
         ikigui_window_get_events(&plug->dat.mywin);		// update window events
 	struct mouse* m = &plug->dat.mywin.mouse ;	// Make a short hand name, for the code below
-
-
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
 	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
 	ikigui_map_draw(&plug->dat.font_map,0,0,0);		// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
-
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
 	ikigui_image_gradient(&bg,0xffeeeedd, 0xff999999);
-
- 
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
@@ -152,7 +146,6 @@ int32_t MIDI_in(plug_instance* plug,struct plugEvents* ev){		// Take care of inc
 		
 		switch (midiData[0] & 0xf0) { // Recive on all channels
 			case 0x90:  // Note on
-	
 				sprintf(terminal(plug),"NOTE ON  CH %hhu   NOTE       %hhu,  VELOCITY  %hhu ",(midiData[0] & 0x0f),  midiData[1] & 0x7F, midiData[2] & 0x7F); // Print message on bottom row
 			break;      
 			case 0x80:  // Note off

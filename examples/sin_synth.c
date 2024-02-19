@@ -174,11 +174,11 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_image_gradient(&bg,0x00444444, 0x00222222);
+	ikigui_image_gradient(&bg,0xff444444, 0xff222222);
 	ikigui_rect gradient_frame = {.w = bg.w - 10, .h  = 10, .x = 5, .y = 54 };
 	ikigui_draw_gradient(&bg,0xff555555, 0xff666666,&gradient_frame);
 	gradient_frame.y = 118 ;
-	ikigui_draw_gradient(&bg,0x00555555, 0x00666666,&gradient_frame);
+	ikigui_draw_gradient(&bg,0xff555555, 0xff666666,&gradient_frame);
 	ikigui_rect gradient_terminal = {.w = bg.w, .h  = 8*8, .x = 0, .y = PLUG_HEIGHT- 8*8 };
 	ikigui_draw_gradient(&bg,0xff788260, 0xff7F8967,&gradient_terminal); // background for the fake LCD 
 	font.color = 0xff3c3e3b; // set font color
