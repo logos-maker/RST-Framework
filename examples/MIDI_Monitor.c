@@ -12,7 +12,7 @@ char brand_name[]   = "DSC";    		// Place your brand name inside ""
 char product_name[] = "DSC-MIDI MONITOR";	// Place your plug name inside ""
 #define VERSION_NUMBER_OF_THIS_SPECIFIC_PLUG 1  // Version number for this plug is set to 1. Increase number for your plug when you make new releases/improvements.
 #define TYPE_OF_PLUG SYNTHESIZER 		// Set this to EFFECT_UNIT or SYNTHESIZER
-#define NUMBER_OF_PARAMETERS 1			// How many parameters that the DAW can automate. That will be listed by the host.
+#define NUMBER_OF_PARAMETERS 0			// How many parameters that the DAW can automate. That will be listed by the host.
 #define NUMBER_OF_PRESETS 1			// Number of presets inside the plug. Lowest amount is 1
 
 
