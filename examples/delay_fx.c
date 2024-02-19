@@ -126,7 +126,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
         }
 }
 void draw_graphics(plug_instance *plug){			// The DAW calls this when it wants to redraw the editor...
-	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);	// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,10,10);		// Draw knobs.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
@@ -137,7 +137,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// For the knob animation
 	ikigui_include_bmp(&knob_anim,knob_array); // Load knob graphics.						
-	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
+	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.image,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 

@@ -102,7 +102,7 @@ void audioplugOpen(plugHeader *plugin){ plug_instance *plug = (plug_instance*)pl
 
 	// For monospace text
 	ikigui_include_bmp(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,COLUMNS,ROWS);
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.image,&font,OFFSET_ASCII,0,0,8,8,COLUMNS,ROWS);
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
 	plug_instance *plug = (plug_instance*)plugin->object;
@@ -119,7 +119,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 	struct mouse* m = &plug->dat.mywin.mouse ;	// Make a short hand name, for the code below
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
-	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);	// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);	// Draw background.
 	ikigui_map_draw(&plug->dat.font_map,0,0,0);		// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...

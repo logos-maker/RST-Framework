@@ -105,7 +105,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 	/* Place your code here */
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
-	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);			// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);			// Draw background.
 
 	daw_transport *transport;
 	transport = (daw_transport*)plug->hostcall(&plug->plughead, dawGetTime,   0, 0, 0, 0);
@@ -168,7 +168,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Character display
 	ikigui_include_bmp(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,18); // 32 col, 8 rows, 8 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.image,&font,OFFSET_ASCII,0,0,8,8,32,18); // 32 col, 8 rows, 8 width, 8 height.
 	font.color = 0x114433 ;
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
