@@ -164,7 +164,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_image_gradient(&bg,0x00ccdd22, 0x00c0d020);
+	ikigui_image_gradient(&bg,0xffccdd22, 0xffc0d020);
 
 	// Character display
 	ikigui_include_bmp(&font,font_array);

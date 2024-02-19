@@ -98,10 +98,12 @@ char* terminal(plug_instance* plug){
 void set_samplerate(plug_instance *plug){		// Is called by the DAW when it gives you the samplerate your plug needs to use...
 	/* Place your code here thats going to run when when the DAW has given the sample rate in plug->samplerate as a float */
 }
-void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
-	plug_instance *plug = (plug_instance*)plugin->object;
+void audioplugOpen(plugHeader *plugin){ plug_instance *plug = (plug_instance*)plugin->object;	// Is executed when the plug opens
 	/* Place your code here thats going to run when a new instance/plug copy is started */
 
+	// For monospace text
+	ikigui_include_bmp(&font,font_array);
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,COLUMNS,ROWS);
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
 	plug_instance *plug = (plug_instance*)plugin->object;
@@ -127,11 +129,9 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_image_gradient(&bg,0x00eeeedd, 0x00999999);
+	ikigui_image_gradient(&bg,0xffeeeedd, 0xff999999);
 
-	// For monospace text
-	ikigui_include_bmp(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,COLUMNS,ROWS); 
+ 
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
