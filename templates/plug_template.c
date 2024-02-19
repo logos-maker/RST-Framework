@@ -110,7 +110,7 @@ void audioplugOpen(plugHeader *plugin){ 		// Is executed when the plug opens
 
 	// For debugging text - Needs to be here as we need to allocate memory for writing text.
 	ikigui_include_bmp(&font,font_array);
-	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.frame,&font,OFFSET_ASCII,0,0,8,8,32,8); // 32 col, 8 rows, 32 width, 8 height.
+	ikigui_map_init(&plug->dat.font_map,&plug->dat.mywin.image,&font,OFFSET_ASCII,0,0,8,8,32,8); // 32 col, 8 rows, 32 width, 8 height.
 }
 void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to be closed
 	plug_instance *plug = (plug_instance*)plugin->object;
@@ -153,7 +153,7 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 	}
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
-	ikigui_draw_image(&plug->dat.mywin.frame,&bg, 0, 0);		// Draw background.
+	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);		// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,0,0);			// Draw knobs.
 	ikigui_map_draw(&plug->dat.font_map,0,PLUG_WIDTH-8*32,128);	// Draw text debugging text.
 }
@@ -161,7 +161,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// Create a background image for the plug - using alpha compositing
 	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
-	ikigui_image_gradient(&bg,0x00eeeedd, 0x00999999);
+	ikigui_image_gradient(&bg,0xffeeeedd, 0xff999999);
 	ikigui_include_bmp(&labels,labels_array); // Load label graphics.
 	ikigui_map_init(&plug->dat.label_map, &bg,&labels,0,H_DISTANCE,V_DISTANCE,64,14,PARAMETER_COL,PARAMETER_ROW);
 	for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++) plug->dat.label_map.map[i] = i; // automap the labels
@@ -169,7 +169,7 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 
 	// For the knob animation
 	ikigui_include_bmp(&knob_anim,knob_array); // Load knob graphics.						
-	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.frame,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
+	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.image,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
