@@ -122,7 +122,7 @@ void ikigui_blit_fast(ikigui_image *dest,ikigui_image *source, int x, int y, iki
 			if(!dest->composit){
         			dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)] = source->pixels[i+part->x+source->w*(j+part->y)];
 			}else{
-				dest->pixels[(x+i+(j+y)*dest->w)] = source->pixels[i+part->x+source->w*(j+part->y)];
+				dest->pixels[(x+i+(j+y)*dest->w)] = 		   source->pixels[i+part->x+source->w*(j+part->y)];
 			}
                 }
         }
@@ -130,14 +130,22 @@ void ikigui_blit_fast(ikigui_image *dest,ikigui_image *source, int x, int y, iki
 void ikigui_draw_image(ikigui_image *dest,ikigui_image *source, int x, int y){ /// draw source image to the x,y coordinate in destination image
         for(int j = 0 ; j < source->h ; j++){ // vertical
                 for(int i = 0 ; i < source->w ; i++){   // horizontal
-                        dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)] = source->pixels[i+source->w*(j)];
+			if(!dest->composit){
+        			dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)] = source->pixels[i+source->w*(j)];
+			}else{
+				dest->pixels[(x+i+(j+y)*dest->w)] = 		   source->pixels[i+source->w*(j)];
+			}                       
                 }
         }
 }
 void ikigui_draw_image_composite(ikigui_image *dest,ikigui_image *source, int x, int y){ /// draw source image to the x,y coordinate in destination image
         for(int j = 0 ; j < source->h ; j++){ // vertical
                 for(int i = 0 ; i < source->w ; i++){   // horizontal
-                        dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)] = alpha_channel(dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)],source->pixels[i+source->w*(j)]);
+			if(!dest->composit){
+        			dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)] = alpha_channel(dest->pixels[(x+i+(hflip(dest->h,j+y))*dest->w)],source->pixels[i+source->w*(j)]);
+			}else{
+				dest->pixels[x+i+(j+y)*dest->w] = 		   alpha_channel(dest->pixels[x+i+(j+y)*dest->w],source->pixels[i+source->w*j]);
+			}    
                 }
         }
 }
