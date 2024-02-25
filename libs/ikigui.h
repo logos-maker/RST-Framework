@@ -22,6 +22,12 @@ typedef struct {
 	#include <stdlib.h>
 	#include <stdio.h>
 #endif
+#ifdef IKIGUI_TTF
+	#include "ikigui_ttf.h"
+#endif
+#ifdef IKIGUI_IMAGE
+	#include "ikigui_image.h"
+#endif
 #ifndef IKIGUI_DRAW_ONLY // that declatation excludes all platform specific code, so it can be used for drawing into pixelbuffers only.
 #ifdef __linux__ //linux specific code goes here...
 	#include "ikigui_lin.h"	// For window and graphics handling in this case for Linux.
@@ -37,7 +43,7 @@ typedef struct {
 typedef uint32_t ikigui_color; /// An less unambiguous way to rembemer how to make a color variable and not color constants.
 
 /// to make a color by it's separate components
-uint32_t ikigui_color_make(char a, char r, char g, char b){ return (a << 24) + (r << 16) + (g << 8) + (b) ;}
+uint32_t ikigui_color_make(uint8_t a, uint8_t r, uint8_t g, uint8_t b){ return (a << 24) + (r << 16) + (g << 8) + (b << 0) ;}
 
 /// For a tile map that can be drawn to images or windows
 typedef struct ikigui_map {
@@ -112,9 +118,9 @@ int ikigui_mouse_pos_map(struct ikigui_map *display, int x, int y){ // returns -
    return -1; // Pixel coordinate is outside of the character display. 
 }
 
-enum blit_type { BLIT_APLHA = 0, BLIT_FILLED = 1, BLIT_SOLID = 2, BLIT_HOLLOW = 3 }; /// Blit modes/types for ikigui_map_draw()
+enum tile_type { TILE_APLHA = 0, TILE_FILLED = 1, TILE_SOLID = 2, TILE_HOLLOW = 3 }; /// Blit modes/types for ikigui_map_draw()
 /// To draw a tile map to a window or image
-void ikigui_map_draw(struct ikigui_map *display, char blit_type, int x, int y){  // x y is pixel coordinate to draw it in the window
+void ikigui_map_draw(struct ikigui_map *display, char tile_type, int x, int y){  // x y is pixel coordinate to draw it in the window
    
    ikigui_rect srcrect = { .w = display->tile_width, .h = display->tile_hight }; // , .x = 0, .y = 0,  } ;
    ikigui_rect dstrect = { .w = display->tile_width, .h = display->tile_hight };
@@ -130,7 +136,7 @@ void ikigui_map_draw(struct ikigui_map *display, char blit_type, int x, int y){ 
           int val = set_w * (display->map[i*display->columns + j] + display->offset) ;
 	  if(val<0) continue ; // Don't draw tile if given lower value than 0. // val=0; 
 	  if(display->direction)srcrect.x = val ; else srcrect.y = val ;
-	  switch(blit_type){ // Draw the character buffer to window.
+	  switch(tile_type){ // Draw the character buffer to window.
 		  case 0:       ikigui_tile_alpha (display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
 		  case 1:	ikigui_tile_filled(display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
 		  case 2:	ikigui_tile_fast  (display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
