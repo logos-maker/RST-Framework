@@ -168,12 +168,12 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
 	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);			// Draw background.
 	ikigui_map_draw(&plug->dat.knob_map,0,0,0);				// Draw knobs.
-	ikigui_map_draw(&plug->dat.font_map,BLIT_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
+	ikigui_map_draw(&plug->dat.font_map,TILE_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
 	// Create a background image for the plug - using alpha compositing
-	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
+	ikigui_image_make(&bg, PLUG_WIDTH,PLUG_HEIGHT);
 	ikigui_image_gradient(&bg,0xff444444, 0xff222222);
 	ikigui_rect gradient_frame = {.w = bg.w - 10, .h  = 10, .x = 5, .y = 54 };
 	ikigui_draw_gradient(&bg,0xff555555, 0xff666666,&gradient_frame);

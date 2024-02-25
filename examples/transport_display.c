@@ -158,12 +158,12 @@ void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to
 	if(transport->flags & DAW_AUTOMATION_READ) sprintf(commandline,"DAW AUTO WRITE      ");
 	else sprintf(commandline,"DAW AUTO NOT WRITING");
 
-	ikigui_map_draw(&plug->dat.font_map,BLIT_HOLLOW,0,0);// Draw text debugging text.
+	ikigui_map_draw(&plug->dat.font_map,TILE_HOLLOW,0,0);// Draw text debugging text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
 	// Create a background image for the plug - using alpha compositing
-	ikigui_image_create(&bg, PLUG_WIDTH,PLUG_HEIGHT);
+	ikigui_image_make(&bg, PLUG_WIDTH,PLUG_HEIGHT);
 	ikigui_image_gradient(&bg,0xffccdd22, 0xffc0d020);
 
 	// Character display
