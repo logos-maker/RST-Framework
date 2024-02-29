@@ -158,17 +158,20 @@ void mouse_handling(plug_instance *plug){		// Mouse handling
                 m->pressed = 0;
                 plug->hostcall(&plug->plughead, dawAutomateEnd,   plug->knob_selected, 0, 0, 0); // Tell the DAW that we released the knob.
         }
-        for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++ ){ // Update the tile map, with all knob values.
-                plug->dat.knob_map.map[i] = (char)(plug->pth.knob[i] * plug->dat.knob_map.max_index ); // Select animation frame for knob value.
-        }
+
 	if(m->left_click){
 		sprintf(terminal(plug),"coordinate x: %3d  y: %3d",plug->dat.mywin.mouse.x,plug->dat.mywin.mouse.y); // Debug demo: Print message on click
 	}
 }
 void draw_graphics(plug_instance *plug){		// The DAW calls this when it wants to redraw the editor...
-	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);			// Draw background.
-	ikigui_map_draw(&plug->dat.knob_map,0,0,0);				// Draw knobs.
-	ikigui_map_draw(&plug->dat.font_map,TILE_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw text debugging text.
+
+        for(int i = 0 ; i < NUMBER_OF_PARAMETERS ; i++ ){ // Redraw changed knobs
+                if(plug->dat.knob_map.map[i] != (char)(plug->pth.knob[i] * plug->dat.knob_map.max_index )){ // Has it changed?
+			plug->dat.knob_map.map[i] = (char)(plug->pth.knob[i] * plug->dat.knob_map.max_index ); // Select animation frame for knob value.
+			ikigui_map_draw_tile(&plug->dat.knob_map,&bg,i,0,0,0);// Draw only one knob.
+		}
+        }
+	ikigui_map_draw_healing(&plug->dat.font_map,&bg,TILE_HOLLOW,PLUG_WIDTH-8*32,64*PARAMETER_ROW);// Draw LCD text.
 }
 void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when it wants to open the editor window...
 
@@ -191,6 +194,9 @@ void prepare_graphics(plug_instance *plug,void *ptr){	// The DAW calls this when
 	ikigui_include_bmp(&knob_anim,knob_array); // Load knob graphics.						
 	ikigui_map_init(&plug->dat.knob_map, &plug->dat.mywin.image,&knob_anim,0,H_DISTANCE,V_DISTANCE,64,64,PARAMETER_COL,PARAMETER_ROW); // Set columns and rows of knobs in the tile array, and tile width and hight.
 
+	ikigui_draw_image(&plug->dat.mywin.image,&bg, 0, 0);    // Draw background.
+
+	ikigui_map_draw(&plug->dat.knob_map,0,0,0); 		// Draw all knobs.
 }
 void destroy_graphics(plug_instance *plug,void *ptr){	// When the DAW closes the window...
 
