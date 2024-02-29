@@ -136,11 +136,11 @@ void audioplugClose(plugHeader *plugin){ 		// Is executed when the plug going to
 //**************************
 
 void mouse_handling(plug_instance *plug){		// Mouse handling
-        ikigui_window_get_events(&plug->dat.mywin);		// update window events
+        ikigui_window_get_events(&plug->dat.mywin);	// update window events
 	struct mouse* m = &plug->dat.mywin.mouse ;	// Make a short hand name, for the code below
 
 	if(m->left_click){ // Mouse down event
-                plug->knob_selected = ikigui_mouse_pos_map(&plug->dat.knob_map, m->x , m->y);
+                plug->knob_selected = ikigui_mouse_pos_map(&plug->dat.knob_map, m->x , m->y); // Find clicked tile
                 if(-1 != plug->knob_selected){ // if mouse pointer was over a tile
                         m->pressed = 1; // That we has sent to the host that we have grabbed something
                         plug->hostcall(&plug->plughead, dawAutomateStart, plug->knob_selected, 0, 0, 0); // Tell host we grabed the knob 
