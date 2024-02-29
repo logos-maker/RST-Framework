@@ -28,6 +28,9 @@ typedef struct {
 #ifdef IKIGUI_IMAGE
 	#include "ikigui_image.h"
 #endif
+#ifdef IKIGUI_DIAL
+	#include "ikigui_dial.h"
+#endif
 #ifndef IKIGUI_DRAW_ONLY // that declatation excludes all platform specific code, so it can be used for drawing into pixelbuffers only.
 #ifdef __linux__ //linux specific code goes here...
 	#include "ikigui_lin.h"	// For window and graphics handling in this case for Linux.
@@ -144,4 +147,30 @@ void ikigui_map_draw(struct ikigui_map *display, char tile_type, int x, int y){ 
 	  }
       }
    }
+}
+/// To draw one tile in the tile map to a window or image but first draw a new background for that tile position
+void ikigui_map_draw_tile(struct ikigui_map *display, ikigui_image *bg_source, int index, char tile_type, int x, int y){ /// heal backgroud and draw the tile
+   
+	ikigui_rect srcrect = { .w = display->tile_width, .h = display->tile_hight }; // , .x = 0, .y = 0,  } ;
+	ikigui_rect dstrect = { .w = display->tile_width, .h = display->tile_hight };
+
+	int set_w;
+	if(display->direction) set_w = srcrect.w ;
+	else                   set_w = srcrect.h ;
+
+	int i = index % display->columns ; // Row
+	dstrect.y = i * display->y_spacing + y;
+	int j = index / display->columns ; // Column
+	dstrect.x = (j * display->x_spacing) + x;
+	int val = set_w * (display->map[i*display->columns + j] + display->offset) ;
+	if(val<0) return ; // Don't draw tile if given lower value than 0. // val=0; 
+	if(display->direction)srcrect.x = val ; else srcrect.y = val ;
+	ikigui_tile_fast  (display->dest,bg_source, dstrect.x, dstrect.y, &srcrect); // Heal background
+	switch(tile_type){ // Draw the selected tile to window.
+		case 0: ikigui_tile_alpha (display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
+		case 1:	ikigui_tile_filled(display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
+		case 2:	ikigui_tile_fast  (display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
+		case 3:	ikigui_tile_hollow(display->dest,display->source, dstrect.x, dstrect.y, &srcrect);	break;
+	}
+
 }
