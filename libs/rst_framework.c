@@ -3,11 +3,12 @@
 #if NUMBER_OF_PARAMETERS != 0
 void getProgramName(int32_t index,  char* ptr){	strcpy(ptr,presets[index].preset_name); }; // Copy the preset name and give to the host when asked for.
 #endif
+
 void setknob(plug_instance* plug,int knob,float value){
 	plug->pth.knob[knob] = value ;
 	plug->hostcall(&plug->plughead, 0, knob, 0, 0, plug->pth.knob[knob]); // op-code 0
 }
- 
+
 // Function is called by the host to make your plug do and answer different things that the DAW asks for.
 plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index, plugPtr value, void *ptr, float opt){ // Pointer to this function is used in the myplugin header
 	plug_instance *plug = (plug_instance*)plugin->object;
@@ -35,8 +36,9 @@ plugPtr plugInstructionDecoder(plugHeader *plugin, int32_t opCode, int32_t index
 			ikigui_window_update(&plug->dat.mywin); // Update all graphics in the plugin editor
 		break;
 		case plugEditorOpen:{
-			prepare_graphics(plug,ptr); // Allocate everything needed for the new editor window.
 			ikigui_window_open_editor(&plug->dat.mywin,ptr,PLUG_WIDTH,PLUG_HEIGHT);	// Open the editor window in host.
+			prepare_graphics(plug,ptr); // Allocate everything needed for the new editor window.
+
 			return  1;//true;
 		}
 		break;
